@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Talent Hunt Registration</title>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        input, select, textarea, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input, select, textarea {
+            background: #2a2a2a;
+            color: #ffffff;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        a {
+            color: #00adb5;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        a:hover {
+            color: #00ddff;
+        }
+        .terms-container {
+            margin-top: 20px;
+            text-align: left;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register for Legacy Talent Hunt</h2>
+        <form id="registrationForm">
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+            <input type="email" id="email" name="email" placeholder="Email Address" required>
+            <input type="text" id="phone" name="phone" placeholder="Phone Number" required>
+            
+            <label for="talent_category">Talent Category</label>
+            <select id="talent_category" name="talent_category" required>
+                <option value="">Select Your Talent</option>
+                <option value="Singing">Singing</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Acting">Acting</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Others">Others</option>
+            </select>
+            
+            <textarea id="talent_description" name="talent_description" placeholder="Describe Your Talent" rows="4" required></textarea>
+            
+            <label>
+                <input type="checkbox" id="terms" required> I agree to the terms & conditions
+            </label>
+            
+            <button type="submit">Register</button>
+        </form>
+        <p id="message"></p>
+        
+        <div class="terms-container">
+            <h3>Terms & Conditions</h3>
+            <p>1. Participants must provide accurate and complete information during registration.</p>
+            <p>2. The event organizers reserve the right to disqualify any participant who violates the rules.</p>
+            <p>3. Participants agree to have their performances recorded and used for promotional purposes.</p>
+            <p>4. The decision of the judges will be final and binding.</p>
+            <p>5. Any form of misconduct, including plagiarism, will result in immediate disqualification.</p>
+            <p>6. By registering, participants confirm they have read and agreed to these terms.</p>
+        </div>
+        
+        <p><a href="index.html">Back to Home</a></p>
+    </div>
+    
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                talent_category: document.getElementById('talent_category').value,
+                talent_description: document.getElementById('talent_description').value,
+                agreed_terms: document.getElementById('terms').checked
+            };
+            
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            document.getElementById('message').textContent = result.message;
+        });
+    </script>
+</body>
+</html>
